@@ -45,11 +45,11 @@ Resources:
       Policies:
       - DynamoDBCrudPolicy:
           TableName:
-            Ref: SampleTable
+            Ref: MetricsTable
       Environment:
         Variables:
           SAMPLE_TABLE:
-            Ref: SampleTable
+            Ref: MetricsTable
       Events:
         Api:
           Type: Api

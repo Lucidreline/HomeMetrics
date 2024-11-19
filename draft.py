@@ -26,8 +26,8 @@ except:
     
 
 body = {"id": '{} {}'.format(env.piId, getFormattedTimestamp()),
-        "temperature": celToFer(temperature),
-        "humidity": humidity
+        "temperature": celToFer(temperature) + env.tempAdjustment,
+        "humidity": humidity + env.humidAdjustment
         }
 
 makePostRequest(body)

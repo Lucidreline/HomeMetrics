@@ -25,11 +25,10 @@ except:
     print("oopsie")
     
 
-body = {"id": getFormattedTimestamp(),
+body = {"id": '{} {}'.format(env.piId, getFormattedTimestamp()),
         "temperature": celToFer(temperature),
-        "humidity": humidity,
-        "piId": env.piId
+        "humidity": humidity
         }
 
 makePostRequest(body)
-print(getFormattedTimestamp(), 'Temp={0:0.1f}F  Humidity={1:0.1f}%'.format(temperature,humidity))
+print(body)

@@ -32,5 +32,4 @@ body = {"id": getFormattedTimestamp(),
         }
 
 makePostRequest(body)
-print(body)
-print('Temp={0:0.1f}F  Humidity={1:0.1f}%'.format(temperature,humidity))
+print(getFormattedTimestamp(), 'Temp={0:0.1f}F  Humidity={1:0.1f}%'.format(temperature,humidity))

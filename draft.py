@@ -18,13 +18,13 @@ def makePostRequest(body):
     requests.post(env.postURL, json = body)
 
 try:
-    if (env.pinNumber == 11):
+    if (env.sensorType == 11):
         humidity,temperature = dht.read_retry(dht.DHT11, env.pinNumber)
-    elif (env.pinNumber == 22):
+    elif (env.sensorType == 22):
         humidity,temperature = dht.read_retry(dht.DHT22, env.pinNumber)
 except:
     print("oopsie")
-    
+        
 
 body = {"id": '{} {}'.format(env.piId, getFormattedTimestamp()),
         "temperature": celToFer(temperature) + env.tempAdjustment,

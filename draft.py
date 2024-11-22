@@ -3,6 +3,7 @@ import datetime
 import requests
 import pytz
 import env
+import sys
 
 def celToFer(c):
     return (c * (9/5)) + 32
@@ -30,5 +31,12 @@ body = {"id": '{} {}'.format(env.piId, getFormattedTimestamp()),
         "humidity": humidity + env.humidAdjustment
         }
 
-makePostRequest(body)
-print(body)
+if(len(sys.argv) > 1):
+    if (sys.argv[1] == "--prod"):
+        makePostRequest(body)
+        print("Sending to DB", body)
+    elif(sys.argv[1] == "--debug"):
+        print("Debug", body)
+else:
+      print("Enter a flag: --prod --debug")
+

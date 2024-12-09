@@ -31,17 +31,17 @@ Resources:
       CodeUri: getAllItemsFunction
     Metadata:
       SamResourceId: getAllItemsFunction
-  getByIdFunction:
+  getLastXItemsFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/handlers/get-by-id.getByIdHandler
+      Handler: src/handlers/get-last-x-items.getLastXItemsHandler
       Runtime: nodejs18.x
       Architectures:
       - x86_64
       MemorySize: 128
       Timeout: 100
-      Description: A simple example includes a HTTP get method to get one item by
-        id from a DynamoDB table.
+      Description: A simple example includes a HTTP get method to get all items from
+        a DynamoDB table.
       Policies:
       - DynamoDBCrudPolicy:
           TableName:
@@ -54,11 +54,11 @@ Resources:
         Api:
           Type: Api
           Properties:
-            Path: /{id}
+            Path: /last-x/{x}
             Method: GET
-      CodeUri: getByIdFunction
+      CodeUri: getLastXItemsFunction
     Metadata:
-      SamResourceId: getByIdFunction
+      SamResourceId: getLastXItemsFunction
   putItemFunction:
     Type: AWS::Serverless::Function
     Properties:

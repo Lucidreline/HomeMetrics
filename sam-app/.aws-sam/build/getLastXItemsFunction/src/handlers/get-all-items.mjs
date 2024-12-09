@@ -9,7 +9,7 @@ let ddbDocClient = DynamoDBDocumentClient.from(client);
 // redirect dynamodb if this is ran locally
 if (process.env.AWS_SAM_LOCAL) {
     ddbDocClient = DynamoDBDocumentClient.from(new DynamoDBClient({
-        endpoint: "http://172.20.0.2:8000"
+        endpoint: "http://172.20.0.6:8000"
     }));
 }
 

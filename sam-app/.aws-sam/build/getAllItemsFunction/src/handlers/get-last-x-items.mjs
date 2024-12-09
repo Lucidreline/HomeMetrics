@@ -1,5 +1,6 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, ScanCommand } from '@aws-sdk/lib-dynamodb';
+import { BatchGetItemCommand } from "@aws-sdk/client-dynamodb";
 const client = new DynamoDBClient({});
 let ddbDocClient = DynamoDBDocumentClient.from(client);
 
@@ -55,6 +56,14 @@ const getTimestamps = (x, piId) => {
     return timestamps
 }
 
+const formatForQuery = (ids) => {
+    const keys = []
+    ids.forEach(id => {
+        keys.push({ "id": { "S": id } })
+    })
+
+    return keys
+}
 
 // console.log(getTimestamps(1, "pi1"))
 
@@ -75,22 +84,29 @@ export const getLastXItemsHandler = async (event) => {
     // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html#scan-property
     // https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Scan.html
     var params = {
-        TableName: tableName
+        RequestItems: {
+            [tableName]: {
+                Keys: formatForQuery(idsToFind)
+            }
+        }
     };
 
     try {
-        const data = await ddbDocClient.send(new ScanCommand(params));
-        var items = data.Items;
+        //const data = await ddbDocClient.send(new BatchGetItemCommand(params));
+        var data = await ddbDocClient.send(new BatchGetItemCommand(params))
+        var res = data.Responses[tableName]
+        console.log(res)
+        // var items = data.Items;
+        // console.log(items)
     } catch (err) {
         console.log("Error", err);
     }
 
     const response = {
         statusCode: 200,
-        body: JSON.stringify({ ids: idsToFind })
+        body: JSON.stringify({ ids: "test" })
     };
 
     // All log statements are written to CloudWatch
-    console.info(`response from: ${event.path} statusCode: ${response.statusCode} body: ${response.body}`);
     return response;
 }

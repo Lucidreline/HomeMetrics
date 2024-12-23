@@ -116,6 +116,11 @@ export const getLastXItemsHandler = async (event) => {
     const formattedRes = formatResponse(res)
     const response = {
         statusCode: 200,
+        headers: {
+            "Access-Control-Allow-Headers": "Content-Type",
+            "Access-Control-Allow-Origin": "*", // Allow from anywhere 
+            "Access-Control-Allow-Methods": "GET" // Allow only GET request 
+        },
         body: JSON.stringify({ items: formattedRes })
     };
 

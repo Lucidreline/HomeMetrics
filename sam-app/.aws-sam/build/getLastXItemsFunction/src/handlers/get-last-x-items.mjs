@@ -65,6 +65,18 @@ const formatForQuery = (ids) => {
     return keys
 }
 
+const formatResponse = (response) => {
+    const data = []
+    response.forEach(item => {
+        data.push({
+            id: item.id.S,
+            temperature: item.temperature.N,
+            humidity: item.humidity.N
+        })
+    })
+    return data
+}
+
 // console.log(getTimestamps(1, "pi1"))
 
 export const getLastXItemsHandler = async (event) => {
@@ -95,16 +107,16 @@ export const getLastXItemsHandler = async (event) => {
         //const data = await ddbDocClient.send(new BatchGetItemCommand(params));
         var data = await ddbDocClient.send(new BatchGetItemCommand(params))
         var res = data.Responses[tableName]
-        console.log(res)
         // var items = data.Items;
         // console.log(items)
     } catch (err) {
         console.log("Error", err);
     }
 
+    const formattedRes = formatResponse(res)
     const response = {
         statusCode: 200,
-        body: JSON.stringify({ ids: "test" })
+        body: JSON.stringify({ items: formattedRes })
     };
 
     // All log statements are written to CloudWatch
